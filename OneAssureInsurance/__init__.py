@@ -1,6 +1,7 @@
 import datetime
 from flask import Flask
-from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from pymongo.mongo_client import MongoClient
 from .basepydanticmodels import *
 
@@ -9,6 +10,7 @@ app.secret_key = "oneassuretest"
 jwt = JWTManager(app) # initialize JWTManager
 app.config['JWT_SECRET_KEY'] = '38dd56f56d405e02ec0ba4be4607eaab'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1) # define the life span of the token
+CORS(app)
 
 uri = "mongodb+srv://harshnaicker:harshnaicker@oneassure-insurancerate.bqtjybf.mongodb.net/?retryWrites=true&w=majority"
 
