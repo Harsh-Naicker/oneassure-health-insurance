@@ -1,4 +1,4 @@
-from flask import request, Response, Blueprint
+from flask import request, Blueprint
 from pydantic import ValidationError
 from OneAssureInsurance import (
     ErrorResponseModel,
@@ -34,12 +34,8 @@ def register_user():
         return controller.register_user()
 
     except (ValidationError, ValueError) as e:
-        return Response(
-            ErrorResponseModel(
-                message="Invalid user data"
-            ),
-            status=400
-        )
+        return ErrorResponseModel(message="Invalid user data").model_dump(), 400
+        
 
 @users.route('/get-login-form-config/', methods=['GET'])
 def get_login_form_config():
@@ -56,12 +52,9 @@ def login_user():
         return controller.login_user()
 
     except (ValidationError, ValueError) as e:
-        return Response(
-            ErrorResponseModel(
-                message="Invalid user data"
-            ),
-            status=400
-        )
+        return ErrorResponseModel(
+            message="Invalid user data"
+        ).model_dump(), 400
 
 @users.route('/is-user-logged-in/', methods=['GET'])
 @jwt_required()
